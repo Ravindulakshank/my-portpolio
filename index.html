@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.A.R. Lakshan Kulathunga | Creative Technologist</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           CSS VARIABLES & THEME CONFIGURATION
+           ========================================= */
+        :root {
+            /* Cosmic Dark Theme */
+            --bg-deep: #050508;
+            --bg-surface: #0f0f16;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --accent-cyan: #00f2ea;
+            --accent-violet: #7b2cbf;
+            --accent-indigo: #4361ee;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Light Theme Override */
+        body.light-mode {
+            --bg-deep: #f0f2f5;
+            --bg-surface: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555566;
+            --accent-cyan: #008f8a;
+            --accent-violet: #5a189a;
+            --accent-indigo: #3a0ca3;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================================
+           RESET & BASE STYLES
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; letter-spacing: -0.02em; }
+        p { color: var(--text-secondary); font-size: 1rem; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* Canvas Background */
+        #cosmos-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding { padding: 120px 0; }
+        
+        .section-header {
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* =========================================
+           COMPONENTS: GLASS & BUTTONS
+           ========================================= */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+            padding: 32px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none; /* For card links */
+            display: block;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: var(--font-head);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(0, 242, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 242, 234, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* Image Placeholders */
+        .img-placeholder {
+            width: 100%;
+            height: 220px;
+            background: #1a1a24;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .img-placeholder span {
+            position: absolute;
+            z-index: 2;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 12px;
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+        }
+
+        .glass-card:hover .img-placeholder img { transform: scale(1.05); }
+
+        /* =========================================
+           NAVIGATION
+           ========================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 0;
+            z-index: 100;
+            transition: 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-links { display: flex; gap: 30px; }
+        
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 1px;
+            bottom: -4px; left: 0; background: var(--accent-cyan);
+            transition: 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .controls { display: flex; align-items: center; gap: 20px; }
+        
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: 0.3s;
+        }
+        
+        .theme-toggle:hover { color: var(--accent-cyan); }
+
+        .mobile-menu-btn { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+            position: relative;
+        }
+
+        .hero-content { max-width: 900px; z-index: 2; }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-title span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease 1s forwards;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.2s forwards;
+        }
+
+        /* =========================================
+           ABOUT ME
+           ========================================= */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .profile-glow {
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-violet));
+            filter: blur(20px);
+            opacity: 0.4;
+            animation: pulseGlow 4s infinite alternate;
+            z-index: 0;
+        }
+
+        .profile-img-box {
+            position: relative;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            z-index: 1;
+            background: #000;
+        }
+
+        .profile-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .profile-img-box .overlay-text {
+            position: absolute;
+            inset: 0; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; color: #fff;
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* =========================================
+           CAPABILITIES (SKILLS)
+           ========================================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .skill-item { margin-bottom: 24px; }
+
+        .skill-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent-indigo), var(--accent-cyan));
+            border-radius: 3px;
+            position: relative;
+            box-shadow: 0 0 10px var(--accent-indigo);
+        }
+
+        /* =========================================
+           CHANNELS
+           ========================================= */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .channel-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .channel-icon {
+            width: 50px; height: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        /* =========================================
+           PODCAST
+           ========================================= */
+        #podcast { background: rgba(0,0,0,0.2); }
+
+        .podcast-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .audio-visualizer {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 40px;
+        }
+
+        .bar {
+            width: 6px;
+            background: var(--accent-violet);
+            border-radius: 4px;
+            animation: equalize 1s ease-in-out infinite;
+        }
+        .bar:nth-child(1) { animation-delay: 0.1s; height: 15px; }
+        .bar:nth-child(2) { animation-delay: 0.3s; height: 25px; }
+        .bar:nth-child(3) { animation-delay: 0.5s; height: 35px; }
+        .bar:nth-child(4) { animation-delay: 0.2s; height: 20px; }
+        .bar:nth-child(5) { animation-delay: 0.4s; height: 30px; }
+
+        /* =========================================
+           PROJECTS & WEBSITES
+           ========================================= */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-content h3 { margin-bottom: 8px; }
+        .project-content p { font-size: 0.9rem; margin-bottom: 16px; }
+        .project-link { 
+            font-size: 0.85rem; 
+            color: var(--accent-cyan); 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================================
+           ACHIEVEMENTS & CV
+           ========================================= */
+        .achievement-badge { text-align: center; }
+        
+        .cv-section {
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(67, 97, 238, 0.15), transparent 70%);
+        }
+
+        /* =========================================
+           CONTACT & FOOTER
+           ========================================= */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+        
+        .contact-item h4 { font-size: 1.1rem; margin-bottom: 5px; }
+        
+        /* Specific link styling for contact items */
+        .contact-item a {
+            font-size: 0.9rem; 
+            color: var(--text-secondary); 
+            display: inline-block;
+        }
+        .contact-item a:hover {
+            color: var(--accent-cyan);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* =========================================
+           ANIMATIONS
+           ========================================= */
+        @keyframes textReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            100% { opacity: 0.6; transform: scale(1.05); }
+        }
+        @keyframes equalize {
+            0%, 100% { height: 10px; }
+            50% { height: 40px; }
+        }
+
+        /* Scroll Reveal Utility Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .about-layout { grid-template-columns: 1fr; text-align: center; }
+            .podcast-card { flex-direction: column; text-align: center; }
+            .hero-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cosmic Background Canvas -->
+    <canvas id="cosmos-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">RAVINDU<span>.</span></a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#projects-current">Projects</a>
+                <a href="#podcast">Podcast</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="controls">
+                <div class="theme-toggle" id="theme-btn"><i class="fas fa-moon"></i></div>
+                <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title" id="hero-name"></h1>
+            <p class="hero-subtitle">Multi-disciplinary creator working across music, media, AI & technology</p>
+            <div class="hero-btns">
+                <!-- Contact Button goes to contact section -->
+                <a href="#contact" class="btn btn-primary">Contact Me</a>
+                <!-- Projects Button goes to current projects section -->
+                <a href="#projects-current" class="btn btn-outline">Current Projects</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section-padding">
+            <div class="container">
+                <div class="about-layout reveal">
+                    <div class="about-visual">
+                        <div class="profile-container">
+                            <div class="profile-glow"></div>
+                            <div class="profile-img-box">
+                                <img src="logo1.png" alt="Profile">
+                                <div class="overlay-text"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <div class="section-header">
+                            <h2>About Me</h2>
+                        </div>
+                        <p style="margin-bottom: 20px;">
+                            I am a creative technologist standing at the intersection of art and algorithm. With a background that spans from the emotional resonance of music production to the logical precision of AI and web development, I build digital ecosystems that feel human, intelligent, and future-ready.
+                        </p>
+                        <p>
+                            My approach is holistic; I don't just design interfaces, I craft experiences. Whether I'm directing a visual narrative or engineering a full-stack application, the goal remains the same: to create meaningful impact through technology.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capabilities Section -->
+        <section id="capabilities" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Core Capabilities</h2>
+                </div>
+                <div class="skills-grid reveal">
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>Music Production</span><span>55%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="55%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>Audio Design & Sound Engineering</span><span>30%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="30%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>Web Development</span><span>50%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="50%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>Graphic Design</span><span>75%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="75%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>AI & Prompt Engineering</span><span>80%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-meta"><span>Video Editing</span><span>75%</span></div>
+                        <div class="progress-track"><div class="progress-fill" data-width="75%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Education & Certifications</h2>
+                </div>
+                <div class="grid-3">
+                    <!-- O/L Card -->
+                    <!-- Link points to YouTube channel as placeholder for external "dangerous" link -->
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" class="glass-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/al/400/300" alt="O/L">
+                            <span>O/L Image</span>
+                        </div>
+                        <h3>Ordinary Level (O/L)</h3>
+                        <p style="margin: 10px 0;">Foundation of academic excellence.</p>
+                        <span class="btn btn-outline" style="padding: 8px 20px; font-size: 0.8rem; pointer-events: none;">Explore</span>
+                    </a>
+                    <!-- A/L Card -->
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" class="glass-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/al/400/300" alt="A/L">
+                            <span>A/L Image</span>
+                        </div>
+                        <h3>Advanced Level (A/L)</h3>
+                        <p style="margin: 10px 0;">Specialized higher education.</p>
+                        <span class="btn btn-outline" style="padding: 8px 20px; font-size: 0.8rem; pointer-events: none;">Explore</span>
+                    </a>
+                    <!-- ICT Card -->
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" class="glass-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/courseict/400/300" alt="ICT">
+                            <span>Course Image</span>
+                        </div>
+                        <h3>ICT Certification</h3>
+                        <p style="margin: 10px 0;">Professional computing skills.</p>
+                        <span class="btn btn-outline" style="padding: 8px 20px; font-size: 0.8rem; pointer-events: none;">Explore</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Channels Section -->
+        <section id="channels" class="section-padding" style="background: rgba(255,255,255,0.01);">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Digital Presence</h2>
+                </div>
+                <div class="channel-grid">
+                    <!-- Channel 1: Main -->
+                    <div class="glass-card reveal">
+                        <div class="img-placeholder" style="height: 140px;">
+                            <img src="https://picsum.photos/seed/ravindumainlogo/400/200" alt="Main">
+                            <span>Ravindumainlogo</span>
+                        </div>
+                        <div class="channel-card-header">
+                            <div class="channel-icon"><i class="fas fa-user-astronaut"></i></div>
+                            <h3>Ravindu Lakshan</h3>
+                        </div>
+                        <p>Main creative hub for music, vlogs, and digital art.</p>
+                        <div class="social-links">
+                            <a href="https://www.youtube.com/channel/UC3JmAERBkV96edyM_Kwde9w" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
+                            <a href="https://web.facebook.com/RawiyaBeats" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.tiktok.com/@ravindu.lakshan.lk" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-spotify"></i></a>
+                            <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-apple"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Channel 2: Tech -->
+                    <div class="glass-card reveal">
+                        <div class="channel-card-header">
+                            <div class="channel-icon"><i class="fas fa-microchip"></i></div>
+                            <h3>LK Konwlage</h3>
+                        </div>
+                        <p>Tech tutorials, reviews, and future-tech insights.</p>
+                        <div class="social-links">
+                            <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
+                            <a href="https://web.facebook.com/RawiyaBeats" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.tiktok.com/@ravindu.lakshan.lk" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Channel 3: React & Challenge -->
+                    <div class="glass-card reveal">
+                        <div class="channel-card-header">
+                            <div class="channel-icon"><i class="fas fa-gamepad"></i></div>
+                            <h3>React & Challenge</h3>
+                        </div>
+                        <p>Gaming, reactions, and community challenges.</p>
+                        <div class="social-links">
+                            <a href="https://www.youtube.com/channel/UC3JmAERBkV96edyM_Kwde9w" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
+                            <a href="https://web.facebook.com/RawiyaBeats" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Podcast Section -->
+        <section id="podcast" class="section-padding">
+            <div class="container">
+                <div class="glass-card podcast-card reveal">
+                    <div>
+                        <h2 style="margin-bottom: 10px;">Eternaty Podcast</h2>
+                        <p>Exploring the universe of ideas, one conversation at a time.</p>
+                    </div>
+                    <div class="audio-visualizer">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    </div>
+                    <!-- Link to YouTube Podcast Channel -->
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Listen Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Websites & Products -->
+        <section id="websites" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Websites & Products</h2>
+                </div>
+                <div class="grid-3">
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card project-card reveal">
+                        <div class="img-placeholder">
+                            <img src="eternatysite.png" alt="Web 1">
+                            <span>Eternaty Books</span>
+                        </div>
+                        <div class="project-content">
+                            <h3>Eternaty Books</h3>
+                            <p>Digital library and reading platform.</p>
+                            <span class="project-link">Visit Site <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                    
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Projects -->
+        <section id="projects-current" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Current Projects</h2>
+                </div>
+                <div class="grid-3">
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card project-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/proj1/400/300" alt="Proj 1">
+                            <span>imageproject01</span>
+                        </div>
+                        <div class="project-content"><h3>Music Production</h3><span class="project-link">View</span></div>
+                    </a>
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card project-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/proj2/400/300" alt="Proj 2">
+                            <span>imageproject01</span>
+                        </div>
+                        <div class="project-content"><h3>Game Development</h3><span class="project-link">View</span></div>
+                    </a>
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card project-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/proj3/400/300" alt="Proj 3">
+                            <span>imageproject01</span>
+                        </div>
+                        <div class="project-content"><h3>AI Website Engine</h3><span class="project-link">View</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Past Projects -->
+        <section id="projects-past" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Past Projects</h2>
+                </div>
+                <div class="grid-3">
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/past1/400/300" alt="Past">
+                            <span>project old image</span>
+                        </div>
+                        <h3>Archived Work 01</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements -->
+        <section id="achievements" class="section-padding">
+            <div class="container">
+                <!-- External link to achievement -->
+                <a href="https://www.helakuru.lk/keyboard#" target="_blank" rel="noopener noreferrer" class="glass-card achievement-badge reveal" style="max-width: 600px; margin: 0 auto;">
+                    <div class="img-placeholder" style="height: 250px;">
+                        <img src="https://picsum.photos/seed/flstudio/600/400" alt="Achievement">
+                        <span>fl studio course achievement</span>
+                    </div>
+                    <h3>FL Studio Mastery</h3>
+                    <p style="margin: 15px 0;">Certified expert in music production and digital audio workstation (DAW) operations.</p>
+                    <span class="btn btn-outline" style="pointer-events: none;">View Certificate</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- News -->
+        <section id="news" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>News & Articles</h2>
+                </div>
+                <div class="grid-3">
+                    <a href="https://www.youtube.com/@LK_Knowladge" target="_blank" rel="noopener noreferrer" class="glass-card reveal">
+                        <div class="img-placeholder">
+                            <img src="https://picsum.photos/seed/news1/400/300" alt="News">
+                            <span>news image</span>
+                        </div>
+                        <h3>The Future of AI Art</h3>
+                        <span class="project-link">Read Article</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV / Resume -->
+        <section id="cv" class="section-padding cv-section">
+            <div class="container reveal">
+                <h2 style="margin-bottom: 20px;">Professional Resume</h2>
+                <p style="margin-bottom: 30px;">Download my detailed CV to review my full history and qualifications.</p>
+                <button class="btn btn-primary" onclick="alert('CV Download Initiated')">
+                    <i class="fas fa-file-download"></i> Download CV
+                </button>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section-padding">
+            <div class="container">
+                <div class="section-header reveal" style="display:block; text-align:center; margin-bottom: 40px;">
+                    <h2>Get In Touch</h2>
+                </div>
+                <div class="contact-grid reveal">
+                    <!-- Name -->
+                    <div class="contact-item">
+                        <i class="fas fa-user"></i>
+                        <h4>Name</h4>
+                        <span>W.A.R.Lakshan Kulathunga</span>
+                    </div>
+                    <!-- Mail - Wired to open email client -->
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email</h4>
+                        <a href="mailto:ravindulakshankulatunga2008@gmail.com">ravin...@gmail.com</a>
+                    </div>
+                    <!-- WhatsApp - Wired to open WhatsApp API -->
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <h4>WhatsApp</h4>
+                        <a href="https://wa.me/94764593905" target="_blank" rel="noopener noreferrer">+94 76 459 3905</a>
+                    </div>
+                    <!-- Instagram -->
+                    <div class="contact-item">
+                        <i class="fab fa-instagram"></i>
+                        <h4>Instagram</h4>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Follow</a>
+                    </div>
+                    <!-- LinkedIn -->
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <h4>LinkedIn</h4>
+                        <a href="https://lk.linkedin.com/" target="_blank" rel="noopener noreferrer">Connect</a>
+                    </div>
+                    <!-- GitHub -->
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <h4>GitHub</h4>
+                        <a href="https://github.com/Ravindulakshank" target="_blank" rel="noopener noreferrer">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 W.A.R. Lakshan Kulathunga. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================
+        // 1. COSMIC BACKGROUND ENGINE (CANVAS)
+        // =========================================
+        const canvas = document.getElementById('cosmos-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        const STAR_COUNT = 200;
+        
+        // Mouse interaction for parallax
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Star {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.brightness = Math.random();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Parallax influence
+                this.x += (mouseX - width/2) * 0.0001 * this.size;
+                this.y += (mouseY - height/2) * 0.0001 * this.size;
+
+                // Wrap around screen
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+                
+                // Twinkle
+                this.brightness += (Math.random() - 0.5) * 0.05;
+                if(this.brightness > 1) this.brightness = 1;
+                if(this.brightness < 0.2) this.brightness = 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.brightness})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            for(let i=0; i<STAR_COUNT; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', () => { resize(); initStars(); });
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Start Canvas
+        resize();
+        initStars();
+        animateStars();
+
+        // =========================================
+        // 2. TEXT ANIMATION (HERO)
+        // =========================================
+        const heroName = "W.A.R. Lakshan";
+        const heroContainer = document.getElementById('hero-name');
+
+        heroName.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = `${index * 0.03}s`;
+            heroContainer.appendChild(span);
+        });
+
+        // =========================================
+        // 3. SCROLL REVEAL & SKILL ANIMATION
+        // =========================================
+        const revealElements = document.querySelectorAll('.reveal');
+        const progressBars = document.querySelectorAll('.progress-fill');
+        
+        const observerOptions = { threshold: 0.15 };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    if(entry.target.id === 'capabilities' || entry.target.closest('#capabilities')) {
+                        progressBars.forEach(bar => {
+                            const w = bar.getAttribute('data-width');
+                            bar.style.width = w;
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => observer.observe(el));
+
+        // =========================================
+        // 4. THEME TOGGLE
+        // =========================================
+        const themeBtn = document.getElementById('theme-btn');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            if(body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // =========================================
+        // 5. NAVBAR SCROLL EFFECT
+        // =========================================
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+    </script>
+</body>
+</html>
